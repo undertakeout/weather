@@ -5,23 +5,30 @@ import {
   Text,
   KeyboardAvoidingView,
   Platform,
-  TextInput
+  ImageBackground
 } from "react-native";
+
+import Search from "./txtInput";
+
+import getWeather from "./pics";
+
 export default class App extends React.Component {
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={[styles.largeText, styles.textStyle]}>Tampa</Text>
-        <Text style={[styles.smallText, styles.textStyle]}>Cloudy</Text>
-        <Text style={[styles.largeText, styles.textStyle]}>91° F</Text>{" "}
-        <TextInput
-          autoCorrect={false}
-          placeholder="enter a city."
-          placeholderTextColor="pink"
-          style={styles.TextInput}
-          clearButtonMode="always"
-        />
-      </View>
+      <KeyboardAvoidingView style={styles.container}>
+        <ImageBackground
+          source={getWeather("cloudy")}
+          style={styles.imageContainer}
+          imageStyle={styles.image}
+        >
+          <View style={styles.txtContainer}>
+            <Text style={[styles.largeText, styles.textStyle]}>Tampa</Text>
+            <Text style={[styles.smallText, styles.textStyle]}>Cloudy</Text>
+            <Text style={[styles.largeText, styles.textStyle]}>91° F</Text>
+            <Search placeholder="enter a city" />
+          </View>
+        </ImageBackground>
+      </KeyboardAvoidingView>
     );
   }
 }
@@ -29,31 +36,38 @@ export default class App extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center"
+    backgroundColor: "#34496E"
+  },
+
+  imageContainer: {
+    flex: 1
+  },
+
+  image: {
+    flex: 1,
+    width: null,
+    height: null,
+    resizeMode: "cover"
+  },
+
+  txtContainer: {
+    flex: 1,
+    justifyContent: "center",
+    backgroundColor: "rgba(0,0,0,0.1)",
+    paddingHorizontal: 20
   },
   textStyle: {
     textAlign: "center",
     ...Platform.select({
       ios: { fontFamily: "AvenirNext-Regular" },
       android: { fontFamily: "Roboto" }
-    })
+    }),
+    color: "white"
   },
   largeText: {
     fontSize: 40
   },
   smallText: {
     fontSize: 18
-  },
-  textInput: {
-    backgroundColor: "#666",
-    color: "white",
-    height: 40,
-    width: 300,
-    marginTop: 20,
-    marginHorizontal: 20,
-    paddingHorizontal: 10,
-    alignSelf: "center"
   }
 });
