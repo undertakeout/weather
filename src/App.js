@@ -13,7 +13,16 @@ import Search from "./txtInput";
 import getWeather from "./pics";
 
 export default class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { location: "Tampa" };
+  }
+
+  handleUpdateLoc = (loc) => {
+    this.setState({ location: loc });
+  };
   render() {
+    const { location } = this.state;
     return (
       <KeyboardAvoidingView style={styles.container}>
         <ImageBackground
@@ -22,10 +31,13 @@ export default class App extends React.Component {
           imageStyle={styles.image}
         >
           <View style={styles.txtContainer}>
-            <Text style={[styles.largeText, styles.textStyle]}>Tampa</Text>
+            <Text style={[styles.largeText, styles.textStyle]}>{location}</Text>
             <Text style={[styles.smallText, styles.textStyle]}>Cloudy</Text>
             <Text style={[styles.largeText, styles.textStyle]}>91° F</Text>
-            <Search placeholder="enter a city" />
+            <Search
+              placeholder="enter a city"
+              onSubmit={this.handleUpdateLoc}
+            />
           </View>
         </ImageBackground>
       </KeyboardAvoidingView>
