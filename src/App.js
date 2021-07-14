@@ -54,13 +54,13 @@ export default class App extends React.Component {
 
   render() {
     const { location, loading, error, weather, temperature } = this.state;
-    console.log(error);
-    console.log(location);
+
+    console.log(weather);
     return (
       <KeyboardAvoidingView style={styles.container}>
         <StatusBar barStyle="light-content" />
         <ImageBackground
-          source={getWeather("cloudy")}
+          source={getWeather(weather)}
           style={styles.imageContainer}
           imageStyle={styles.image}
         >
