@@ -14,7 +14,7 @@ import Search from "./txtInput";
 
 import getWeather from "./pics";
 
-import { fetchLocationId, fetchWeather } from "./weatherapi";
+import { newWeather } from "./weatherapi";
 
 export default class App extends React.Component {
   constructor(props) {
@@ -29,7 +29,7 @@ export default class App extends React.Component {
   }
 
   componentDidMount() {
-    this.handleUpdateLoc("Tampa");
+    this.handleUpdateLoc("tampa");
   }
 
   handleUpdateLoc = async (loc) => {
@@ -37,17 +37,14 @@ export default class App extends React.Component {
 
     this.setState({ loading: true }, async () => {
       try {
-        const locationId = await fetchLocationId(loc);
-        const { location, weather, temperature } = await fetchWeather(
-          locationId
-        );
+        const { location, weather, temperature } = await newWeather(loc);
 
         this.setState({
           loading: false,
           error: false,
-          location: location,
-          weather: weather,
-          temperature: temperature
+          location,
+          temperature,
+          weather
         });
       } catch (e) {
         this.setState({ loading: false, error: true });
@@ -57,6 +54,8 @@ export default class App extends React.Component {
 
   render() {
     const { location, loading, error, weather, temperature } = this.state;
+    console.log(error);
+    console.log(location);
     return (
       <KeyboardAvoidingView style={styles.container}>
         <StatusBar barStyle="light-content" />
@@ -69,7 +68,7 @@ export default class App extends React.Component {
             <ActivityIndicator animating={loading} color="pink" size="large" />
             {!loading && (
               <View>
-                {!error && (
+                {error && (
                   <Text style={[styles.smallText, styles.textStyle]}>
                     Couldn't load weather, try another city.
                   </Text>
@@ -84,7 +83,7 @@ export default class App extends React.Component {
                       {weather}
                     </Text>
                     <Text style={[styles.largeText, styles.textStyle]}>
-                      {`${Math.round(temperature)} F`}{" "}
+                      {temperature}
                     </Text>
                   </View>
                 )}
